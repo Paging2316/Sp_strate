@@ -1,0 +1,2140 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spielerpass – Strategische Markt- & Wettbewerbsanalyse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #1a7a2e;
+    --green-mid: #2da84a;
+    --green-light: #3fcb61;
+    --white: #f7f9f4;
+    --cream: #eef2e8;
+    --dark: #0d1a10;
+    --mid: #1e3022;
+    --text: #2c3e2f;
+    --muted: #6b7f6e;
+    --accent: #e8f230;
+    --red: #e03c2d;
+    --orange: #f0802a;
+    --blue: #2a6ef0;
+    --card-bg: #ffffff;
+    --border: #d0dcd2;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--white);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    background: var(--dark);
+    position: relative;
+    overflow: hidden;
+    min-height: 520px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0;
+  }
+
+  .header-pitch {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 60% 40%, rgba(26,122,46,0.35) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 90% 80%, rgba(45,168,74,0.15) 0%, transparent 60%),
+      linear-gradient(160deg, #0d1a10 0%, #142a18 50%, #0a1209 100%);
+  }
+
+  /* pitch lines SVG overlay */
+  .pitch-lines {
+    position: absolute;
+    inset: 0;
+    opacity: 0.06;
+  }
+
+  .header-content {
+    position: relative;
+    z-index: 2;
+    padding: 3rem 4rem 3.5rem;
+    max-width: 1100px;
+  }
+
+  .header-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--green-light);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .header-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 2rem;
+    height: 2px;
+    background: var(--green-light);
+  }
+
+  .header-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    color: #fff;
+    line-height: 0.95;
+    letter-spacing: 0.02em;
+    margin-bottom: 0.5rem;
+  }
+
+  .header-title span {
+    color: var(--accent);
+  }
+
+  .header-subtitle {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 1.25rem;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 2.2rem;
+  }
+
+  .header-meta {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .meta-pill {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.75);
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    letter-spacing: 0.04em;
+  }
+
+  .header-stat-strip {
+    background: var(--green);
+    position: relative;
+    z-index: 3;
+  }
+
+  .stat-strip-inner {
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 4rem;
+  }
+
+  .stat-strip-inner::-webkit-scrollbar { display: none; }
+
+  .stat-item {
+    flex: 0 0 auto;
+    padding: 1.2rem 2.5rem 1.2rem 0;
+    border-right: 1px solid rgba(255,255,255,0.2);
+    margin-right: 2.5rem;
+    white-space: nowrap;
+  }
+
+  .stat-item:last-child { border-right: none; }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: var(--accent);
+    line-height: 1;
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    background: var(--dark);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 4rem;
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+    gap: 0;
+  }
+
+  .nav-inner::-webkit-scrollbar { display: none; }
+
+  .nav-link {
+    flex: 0 0 auto;
+    padding: 1rem 1.4rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: all 0.25s;
+    white-space: nowrap;
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  /* ─── LAYOUT ─── */
+  .wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 4rem;
+  }
+
+  section {
+    padding: 5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  section:last-child { border-bottom: none; }
+
+  .section-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--green-light);
+    opacity: 0.3;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    color: var(--dark);
+    line-height: 1;
+    margin-bottom: 0.6rem;
+    letter-spacing: 0.02em;
+  }
+
+  .section-lead {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 700px;
+    margin-bottom: 3rem;
+  }
+
+  /* ─── INTRO BOX ─── */
+  .intro-box {
+    background: var(--dark);
+    color: #fff;
+    border-radius: 1.5rem;
+    padding: 2.5rem 3rem;
+    margin-bottom: 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .intro-box::before {
+    content: '';
+    position: absolute;
+    right: -3rem;
+    top: -3rem;
+    width: 12rem;
+    height: 12rem;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(45,168,74,0.3) 0%, transparent 70%);
+  }
+
+  .intro-box p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.85);
+    position: relative;
+  }
+
+  .intro-box strong { color: var(--accent); }
+
+  /* ─── PROFILE GRID ─── */
+  .profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .profile-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 1.2rem;
+    padding: 1.8rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .profile-card:hover {
+    border-color: var(--green-mid);
+    box-shadow: 0 4px 20px rgba(26,122,46,0.08);
+  }
+
+  .card-icon {
+    font-size: 1.8rem;
+    margin-bottom: 0.8rem;
+    display: block;
+  }
+
+  .card-title {
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 0.6rem;
+  }
+
+  .card-body {
+    font-size: 0.9rem;
+    color: var(--text);
+    line-height: 1.65;
+  }
+
+  /* ─── GROWTH TABLE ─── */
+  .growth-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+    font-size: 0.9rem;
+  }
+
+  .growth-table th {
+    background: var(--dark);
+    color: var(--accent);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.9rem 1.2rem;
+    text-align: left;
+  }
+
+  .growth-table td {
+    padding: 0.85rem 1.2rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  .growth-table tr:nth-child(even) td {
+    background: var(--cream);
+  }
+
+  .growth-table tr:last-child td {
+    background: rgba(26,122,46,0.07);
+    font-weight: 600;
+    color: var(--dark);
+  }
+
+  .year-badge {
+    background: var(--green);
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  /* ─── AWARD CARDS ─── */
+  .awards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .award-card {
+    background: linear-gradient(135deg, var(--dark) 0%, var(--mid) 100%);
+    color: #fff;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .award-card::after {
+    content: '🏆';
+    position: absolute;
+    right: -0.5rem;
+    bottom: -0.8rem;
+    font-size: 4rem;
+    opacity: 0.08;
+  }
+
+  .award-year {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    color: var(--accent);
+    line-height: 1;
+    display: block;
+  }
+
+  .award-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin: 0.4rem 0 0.2rem;
+    color: rgba(255,255,255,0.95);
+  }
+
+  .award-org {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.5);
+  }
+
+  /* ─── PARTNER TAGS ─── */
+  .partner-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 2rem;
+  }
+
+  .partner-tag {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 0.5rem 1.2rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--dark);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: all 0.2s;
+  }
+
+  .partner-tag:hover {
+    background: var(--green);
+    color: #fff;
+    border-color: var(--green);
+  }
+
+  .partner-tag.main {
+    background: var(--green);
+    color: #fff;
+    border-color: var(--green);
+  }
+
+  /* ─── COMPETITION MAP ─── */
+  .comp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+  }
+
+  .comp-card {
+    border-radius: 1rem;
+    padding: 1.6rem;
+    border: 1px solid var(--border);
+    position: relative;
+  }
+
+  .comp-card.spielerpass {
+    background: var(--dark);
+    color: #fff;
+    border-color: var(--green);
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .comp-card.spielerpass .comp-name {
+    color: var(--accent);
+    font-size: 1.2rem;
+  }
+
+  .comp-name {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--dark);
+    margin-bottom: 0.3rem;
+  }
+
+  .comp-type {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+
+  .comp-type.partner { color: var(--green); }
+  .comp-type.indirect { color: var(--orange); }
+  .comp-type.leader { color: var(--accent); }
+
+  .comp-desc {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  .comp-card.spielerpass .comp-desc { color: rgba(255,255,255,0.7); }
+
+  .usp-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--accent);
+    color: var(--dark);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.8rem;
+    border-radius: 100px;
+    margin-bottom: 0.8rem;
+  }
+
+  .comp-big-icon {
+    font-size: 3rem;
+    line-height: 1;
+  }
+
+  /* ─── DACH SECTION ─── */
+  .dach-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 2px solid var(--border);
+    margin-bottom: 2.5rem;
+  }
+
+  .dach-tab {
+    padding: 0.8rem 2rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.2s;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .dach-tab.active {
+    color: var(--green);
+    border-bottom-color: var(--green);
+  }
+
+  .dach-panel { display: none; }
+  .dach-panel.active { display: block; }
+
+  .dach-panel-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  /* ─── BEST PRACTICE ─── */
+  .bp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .bp-card {
+    border-radius: 1.2rem;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .bp-header {
+    padding: 1.4rem 1.8rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .bp-flag {
+    font-size: 2rem;
+    line-height: 1;
+  }
+
+  .bp-org {
+    font-weight: 700;
+    font-size: 1rem;
+    color: #fff;
+  }
+
+  .bp-body {
+    padding: 1.4rem 1.8rem;
+    background: var(--card-bg);
+  }
+
+  .bp-metric {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+  }
+
+  .bp-metric:last-child { border-bottom: none; }
+
+  .bp-metric-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    color: var(--dark);
+  }
+
+  /* ─── FUNDING ─── */
+  .funding-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+  }
+
+  .funding-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 1.6rem;
+    transition: all 0.2s;
+    cursor: default;
+  }
+
+  .funding-card:hover {
+    border-color: var(--green-mid);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(26,122,46,0.1);
+  }
+
+  .funding-amount {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    color: var(--green);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+
+  .funding-source {
+    font-weight: 700;
+    font-size: 0.88rem;
+    color: var(--dark);
+    margin-bottom: 0.4rem;
+  }
+
+  .funding-desc {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .funding-tag {
+    display: inline-block;
+    margin-top: 0.8rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.7rem;
+    border-radius: 100px;
+  }
+
+  .funding-tag.eu { background: #003399; color: #FFCC00; }
+  .funding-tag.at { background: #ed2939; color: #fff; }
+  .funding-tag.corp { background: var(--dark); color: var(--accent); }
+
+  /* ─── MARKT ─── */
+  .market-stat-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+  }
+
+  .mstat {
+    text-align: center;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 1.2rem;
+    padding: 2rem 1.2rem;
+  }
+
+  .mstat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.8rem;
+    color: var(--dark);
+    line-height: 1;
+    display: block;
+  }
+
+  .mstat-num span {
+    color: var(--green);
+  }
+
+  .mstat-label {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-top: 0.4rem;
+    line-height: 1.4;
+  }
+
+  /* ─── SWOT ─── */
+  .swot-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    margin-bottom: 2rem;
+  }
+
+  .swot-quad {
+    padding: 2.2rem;
+  }
+
+  .swot-quad:nth-child(1) { background: #e8f7ec; border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); }
+  .swot-quad:nth-child(2) { background: #fff8e6; border-bottom: 1px solid var(--border); }
+  .swot-quad:nth-child(3) { background: #e6f4ff; border-right: 1px solid var(--border); }
+  .swot-quad:nth-child(4) { background: #fff0ef; }
+
+  .swot-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .swot-letter {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.5rem;
+    line-height: 1;
+  }
+
+  .swot-quad:nth-child(1) .swot-letter { color: var(--green); }
+  .swot-quad:nth-child(2) .swot-letter { color: var(--orange); }
+  .swot-quad:nth-child(3) .swot-letter { color: var(--blue); }
+  .swot-quad:nth-child(4) .swot-letter { color: var(--red); }
+
+  .swot-word {
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .swot-list {
+    list-style: none;
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  .swot-list li {
+    padding: 0.4rem 0;
+    padding-left: 1.2rem;
+    position: relative;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+  }
+
+  .swot-list li:last-child { border-bottom: none; }
+
+  .swot-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    top: 0.45rem;
+  }
+
+  .swot-quad:nth-child(1) li::before { color: var(--green); }
+  .swot-quad:nth-child(2) li::before { color: var(--orange); }
+  .swot-quad:nth-child(3) li::before { color: var(--blue); }
+  .swot-quad:nth-child(4) li::before { color: var(--red); }
+
+  /* ─── AKTIONSPLAN ─── */
+  .timeline {
+    position: relative;
+    margin-bottom: 2rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 1.5rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--green), var(--green-light), var(--green-mid));
+  }
+
+  .timeline-phase {
+    margin-left: 4rem;
+    margin-bottom: 2.5rem;
+    position: relative;
+  }
+
+  .timeline-phase::before {
+    content: attr(data-num);
+    position: absolute;
+    left: -3.5rem;
+    top: 0.1rem;
+    width: 2rem;
+    height: 2rem;
+    background: var(--green);
+    color: #fff;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    z-index: 1;
+    border: 3px solid var(--white);
+  }
+
+  .phase-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.8rem;
+    border-radius: 100px;
+    margin-bottom: 0.5rem;
+  }
+
+  .phase-badge.short { background: var(--green); color: #fff; }
+  .phase-badge.mid { background: var(--orange); color: #fff; }
+  .phase-badge.long { background: var(--dark); color: var(--accent); }
+
+  .phase-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--dark);
+    margin-bottom: 1rem;
+  }
+
+  .action-list {
+    list-style: none;
+  }
+
+  .action-item {
+    display: grid;
+    grid-template-columns: 1.5rem 1fr;
+    gap: 0.8rem;
+    padding: 0.7rem 1.2rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 0.6rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.88rem;
+    align-items: start;
+    transition: all 0.15s;
+  }
+
+  .action-item:hover {
+    border-color: var(--green-mid);
+    background: var(--cream);
+  }
+
+  .action-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    color: var(--green);
+    line-height: 1.4;
+  }
+
+  .action-text strong {
+    display: block;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 0.15rem;
+  }
+
+  .action-text span {
+    color: var(--muted);
+    font-size: 0.82rem;
+  }
+
+  /* ─── FAZIT ─── */
+  .fazit-box {
+    background: var(--dark);
+    color: #fff;
+    border-radius: 1.5rem;
+    padding: 3.5rem;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .fazit-box::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 60% at 50% 120%, rgba(45,168,74,0.4), transparent);
+  }
+
+  .fazit-box h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    position: relative;
+    letter-spacing: 0.03em;
+  }
+
+  .fazit-box p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.8);
+    max-width: 720px;
+    margin: 0 auto 1.5rem;
+    position: relative;
+  }
+
+  .fazit-highlight {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--dark);
+    font-weight: 700;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--mid);
+    color: rgba(255,255,255,0.4);
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+  }
+
+  footer a { color: var(--green-light); text-decoration: none; }
+
+  /* ─── ANIMATIONS ─── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── PROGRESS BARS ─── */
+  .progress-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.9rem;
+    font-size: 0.85rem;
+  }
+
+  .progress-label {
+    min-width: 170px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .progress-bar-wrap {
+    flex: 1;
+    background: var(--cream);
+    height: 8px;
+    border-radius: 100px;
+    overflow: hidden;
+  }
+
+  .progress-bar {
+    height: 100%;
+    border-radius: 100px;
+    background: linear-gradient(90deg, var(--green), var(--green-light));
+    width: 0;
+    transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .progress-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    color: var(--dark);
+    min-width: 2.5rem;
+    text-align: right;
+  }
+
+  /* ─── DIGITAL PRESENCE ─── */
+  .digital-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .digi-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 1.4rem;
+    text-align: center;
+  }
+
+  .digi-icon { font-size: 1.5rem; display: block; margin-bottom: 0.4rem; }
+
+  .digi-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    color: var(--dark);
+    display: block;
+  }
+
+  .digi-label {
+    font-size: 0.72rem;
+    color: var(--muted);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .digi-status {
+    display: inline-block;
+    margin-top: 0.5rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 0.15rem 0.5rem;
+    border-radius: 100px;
+  }
+
+  .digi-status.ok { background: #d4f0da; color: var(--green); }
+  .digi-status.warn { background: #fff3d4; color: #b07000; }
+  .digi-status.gap { background: #ffe8e6; color: var(--red); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .wrapper { padding: 0 1.5rem; }
+    .header-content { padding: 2rem 1.5rem 2.5rem; }
+    .stat-strip-inner { padding: 0 1.5rem; }
+    .nav-inner { padding: 0 1.5rem; }
+    .profile-grid { grid-template-columns: 1fr; }
+    .comp-grid { grid-template-columns: 1fr; }
+    .comp-card.spielerpass { grid-column: 1; grid-template-columns: 1fr; }
+    .dach-panel-grid { grid-template-columns: 1fr; }
+    .bp-grid { grid-template-columns: 1fr; }
+    .funding-grid { grid-template-columns: 1fr 1fr; }
+    .market-stat-row { grid-template-columns: 1fr 1fr; }
+    .swot-grid { grid-template-columns: 1fr; }
+    .awards-grid { grid-template-columns: 1fr 1fr; }
+    .digital-grid { grid-template-columns: 1fr 1fr; }
+    .progress-label { min-width: 120px; font-size: 0.78rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── HEADER ─── -->
+<header>
+  <div class="header-pitch">
+    <svg class="pitch-lines" viewBox="0 0 1200 520" preserveAspectRatio="xMidYMid slice" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="100" y="30" width="1000" height="460" stroke="white" stroke-width="2"/>
+      <line x1="600" y1="30" x2="600" y2="490" stroke="white" stroke-width="2"/>
+      <circle cx="600" cy="260" r="80" stroke="white" stroke-width="2"/>
+      <rect x="100" y="160" width="180" height="200" stroke="white" stroke-width="2"/>
+      <rect x="920" y="160" width="180" height="200" stroke="white" stroke-width="2"/>
+      <rect x="100" y="200" width="80" height="120" stroke="white" stroke-width="2"/>
+      <rect x="1020" y="200" width="80" height="120" stroke="white" stroke-width="2"/>
+      <circle cx="600" cy="260" r="3" fill="white"/>
+      <circle cx="230" cy="260" r="3" fill="white"/>
+      <circle cx="970" cy="260" r="3" fill="white"/>
+    </svg>
+  </div>
+  <div class="header-content">
+    <div class="header-eyebrow">Interne Strategieanalyse 2026</div>
+    <h1 class="header-title">
+      SPIELERPASS<br>
+      <span>STRATEGISCHE</span><br>
+      ANALYSE
+    </h1>
+    <p class="header-subtitle">Markt · Wettbewerb · SWOT · Aktionsplan</p>
+    <div class="header-meta">
+      <span class="meta-pill">🇦🇹 Fokus Österreich</span>
+      <span class="meta-pill">📡 DACH-Expansion</span>
+      <span class="meta-pill">🌍 Best Practice International</span>
+      <span class="meta-pill">März 2026</span>
+    </div>
+  </div>
+  <div class="header-stat-strip">
+    <div class="stat-strip-inner">
+      <div class="stat-item">
+        <span class="stat-num">300</span>
+        <span class="stat-label">Spieler:innen Cup 2025</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">25</span>
+        <span class="stat-label">Teams (Rekord)</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">8</span>
+        <span class="stat-label">Cup-Ausgaben</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">1,9<small style="font-size:1rem">Mio</small></span>
+        <span class="stat-label">MmB in Österreich</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">&gt;90<small style="font-size:1rem">%</small></span>
+        <span class="stat-label">Sportl. unorganisiert</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">9,5<small style="font-size:1rem">Mio€</small></span>
+        <span class="stat-label">Erasmus+ Sport 2026</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <div class="nav-inner">
+    <a href="#profil" class="nav-link active">Profil</a>
+    <a href="#wachstum" class="nav-link">Wachstum</a>
+    <a href="#auszeichnungen" class="nav-link">Awards</a>
+    <a href="#digital" class="nav-link">Digital</a>
+    <a href="#wettbewerb" class="nav-link">Wettbewerb</a>
+    <a href="#dach" class="nav-link">DACH</a>
+    <a href="#bestpractice" class="nav-link">Best Practice</a>
+    <a href="#foerderung" class="nav-link">Förderung</a>
+    <a href="#markt" class="nav-link">Markt</a>
+    <a href="#swot" class="nav-link">SWOT</a>
+    <a href="#aktionsplan" class="nav-link">Aktionsplan</a>
+    <a href="#fazit" class="nav-link">Fazit</a>
+  </div>
+</nav>
+
+<!-- ─── 1. PROFIL ─── -->
+<section id="profil">
+  <div class="wrapper">
+    <div class="section-label">01 – Organisation</div>
+    <h2 class="section-title">WAS IST SPIELERPASS?</h2>
+    <p class="section-lead">Von einer Graswurzel-Idee zum größten inklusiven Hallenfußballturnier Österreichs</p>
+
+    <div class="intro-box fade-in">
+      <p>Spielerpass – Daheim im Verein ist ein <strong>gemeinnütziger Verein</strong> (ZVR 156 708 571), gegründet <strong>2016</strong> in Krems an der Donau von Ex-ÖFB-Nationaltormann <strong>Nikolas Karner</strong>. Ausgangspunkt: seine Freundschaft zu Felix Haindl, einem Menschen mit Behinderung, der keinen regulären Spielerpass bekam. Das Kernziel ist seither unveränderlich – <strong>Fußball für alle, unabhängig vom Behinderungsgrad</strong>. Als Botschafter fungiert Ex-Profi <strong>Stefan Maierhofer</strong>. Seit 2023 betreibt Spielerpass mit dem <strong>DSG Inklusiver FC Spielerpass</strong> den ersten inklusiven Verein im regulären ÖFB-Ligabetrieb.</p>
+    </div>
+
+    <div class="profile-grid fade-in">
+      <div class="profile-card">
+        <span class="card-icon">⚽</span>
+        <div class="card-title">Mission</div>
+        <div class="card-body">Jeder Mensch – unabhängig von Art und Ausmaß einer Behinderung – soll die Chance erhalten, einen regulären Vereinsfußballpass zu erhalten und aktiv am Spielbetrieb teilzunehmen. Fußball als treibende Kraft zu einem selbstbestimmten Leben.</div>
+      </div>
+      <div class="profile-card">
+        <span class="card-icon">🏟️</span>
+        <div class="card-title">Kernprodukte</div>
+        <div class="card-body">Spielerpass Cup (Österreichs größtes inklusives Hallenturnier), DSG Inklusiver FC (3 Teams in regulärer Liga), Herbert Pichler Cup, Kremser Inklusionscup, Trainings & Sommercamps, IFS-Gewaltschutzprojekt.</div>
+      </div>
+      <div class="profile-card">
+        <span class="card-icon">🎯</span>
+        <div class="card-title">Zielgruppen</div>
+        <div class="card-body">Menschen mit körperlicher, geistiger und Mehrfachbehinderung, Autismus-Spektrum. Begleitend: Betreuungseinrichtungen (Lebenshilfe, Caritas, Jugend am Werk), Schulen (ASO, BRG), Bundesliga-SNTs, Familien, Sponsoren.</div>
+      </div>
+      <div class="profile-card">
+        <span class="card-icon">🤝</span>
+        <div class="card-title">Unique Format</div>
+        <div class="card-body">Einziger behinderungsübergreifender Verein im regulären ÖFB-Ligabetrieb. Drei Cup-Leistungsstufen (Champions / Challengers / Stars) + Kids Cup. „Stille Stunde Court" für Autismus-Spektrum als österreichische Pionierleistung.</div>
+      </div>
+    </div>
+
+    <div class="section-label" style="margin-top: 2rem;">Partner & Sponsoren</div>
+    <div class="partner-tags fade-in">
+      <span class="partner-tag main">⭐ BILLA (REWE Group)</span>
+      <span class="partner-tag">🇪🇺 EU / Erasmus+</span>
+      <span class="partner-tag">📺 Licht ins Dunkel (ORF)</span>
+      <span class="partner-tag">🇦🇹 Österreichischer Behindertenrat</span>
+      <span class="partner-tag">🌍 Zero Project (Essl Foundation)</span>
+      <span class="partner-tag">⚽ Football for the Goals (UN)</span>
+      <span class="partner-tag">SPORT.LAND.NÖ (historisch)</span>
+      <span class="partner-tag">ÖZIV Access</span>
+      <span class="partner-tag">100% SPORT</span>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 2. WACHSTUM ─── -->
+<section id="wachstum">
+  <div class="wrapper">
+    <div class="section-label">02 – Entwicklung</div>
+    <h2 class="section-title">WACHSTUMSKURVE DES CUP</h2>
+    <p class="section-lead">Von 6 Teams und null Fördereuro zum internationalen Hallenturnier</p>
+
+    <div class="fade-in" style="overflow-x: auto;">
+      <table class="growth-table">
+        <thead>
+          <tr>
+            <th>Jahr</th>
+            <th>Teams</th>
+            <th>Spieler:innen</th>
+            <th>Highlights</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="year-badge">2017</span></td>
+            <td>6</td>
+            <td>~50</td>
+            <td>Premiere des Spielerpass Cup</td>
+          </tr>
+          <tr>
+            <td><span class="year-badge">2018</span></td>
+            <td>~10</td>
+            <td>~100</td>
+            <td>Erstmals international: Chelsea FC, FC Torino, FC Ingolstadt</td>
+          </tr>
+          <tr>
+            <td><span class="year-badge">2019</span></td>
+            <td>16</td>
+            <td>~200</td>
+            <td>Andreas Ivanschitz als Schiedsrichter, ORF-Berichterstattung</td>
+          </tr>
+          <tr>
+            <td><span class="year-badge">2020–21</span></td>
+            <td>–</td>
+            <td>–</td>
+            <td>COVID-Pause → Innovationsprojekt DAHEIMKICKER (WGs/Heime)</td>
+          </tr>
+          <tr>
+            <td><span class="year-badge">2022</span></td>
+            <td>15</td>
+            <td>200+</td>
+            <td>Comeback, ORF-Team live, Rapid-Legenden, Herbert Pichler Cup</td>
+          </tr>
+          <tr>
+            <td><span class="year-badge">Feb 2025</span></td>
+            <td>25</td>
+            <td>~250</td>
+            <td>Erstmals Wien (Westside Soccer Arena), innovativer „Stiller Stunde Court"</td>
+          </tr>
+          <tr>
+            <td><span class="year-badge">Nov 2025</span></td>
+            <td>25</td>
+            <td>300 ⭐</td>
+            <td>REKORD. Erstmals deutsche Clubs: TSV 1860 München, Hannover 96. 500 Zuschauer. BILLA als Presenting Partner.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-label" style="margin-top: 2.5rem;">Weitere Aktivitäten</div>
+    <div class="profile-grid fade-in">
+      <div class="profile-card">
+        <span class="card-icon">📅</span>
+        <div class="card-title">Jahresbetrieb</div>
+        <div class="card-body">100+ Trainings pro Jahr, 3 Turniere, 3 Fußballcamps (Sportschule Lindabrunn), DSG-Kleinfeldliga-Spielbetrieb (FFBOE-Liga).</div>
+      </div>
+      <div class="profile-card">
+        <span class="card-icon">🏫</span>
+        <div class="card-title">Schulprojekte</div>
+        <div class="card-body">Kremser Inklusionscup (ASO Krems + BRG Ringstraße), WINTERCLUB im Praterdome Wien (bis 400 Gäste), DAHEIMKICKER in Wohngemeinschaften.</div>
+      </div>
+      <div class="profile-card">
+        <span class="card-icon">🛡️</span>
+        <div class="card-title">IFS-Projekt 2025–2028</div>
+        <div class="card-body">"Inklusiver Fußball mit Sicherheit" – EU-Erasmus+-Projekt. Entwicklung von Gewaltschutzkonzepten für alle österreichischen Vereine mit Inklusionsmannschaften. Partner: ÖZIV Access, 100% SPORT.</div>
+      </div>
+      <div class="profile-card">
+        <span class="card-icon">🌍</span>
+        <div class="card-title">Internationale Kontakte</div>
+        <div class="card-body">Chelsea FC, FC Torino, FC Ingolstadt (historisch), TSV 1860 München, Hannover 96 (Cup 2025). Netzwerk als Fundament für DACH-Expansion bereits vorhanden.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 3. AUSZEICHNUNGEN ─── -->
+<section id="auszeichnungen">
+  <div class="wrapper">
+    <div class="section-label">03 – Awards & PR</div>
+    <h2 class="section-title">AUSZEICHNUNGEN & MEDIENREICHWEITE</h2>
+    <p class="section-lead">Für einen kleinen Ehrenamtsverein eine außergewöhnliche Sichtbarkeit</p>
+
+    <div class="awards-grid fade-in">
+      <div class="award-card">
+        <span class="award-year">2023</span>
+        <div class="award-name">Österreicher des Jahres</div>
+        <div class="award-org">Die Presse · 10.000 € Preisgeld</div>
+      </div>
+      <div class="award-card">
+        <span class="award-year">2023</span>
+        <div class="award-name">Ehrenamtspreis Sport – 1. Platz Inklusion</div>
+        <div class="award-org">Sportministerium / Vizekanzler Kogler · 5.000 €</div>
+      </div>
+      <div class="award-card">
+        <span class="award-year">2026</span>
+        <div class="award-name">Zero Project Award – Shortlist</div>
+        <div class="award-org">Essl Foundation · aus 586 Einreichungen, 93 Nationen</div>
+      </div>
+      <div class="award-card">
+        <span class="award-year">2020</span>
+        <div class="award-name">ÖFB Social Football Award</div>
+        <div class="award-org">ÖFB · 1. Platz (3. Platz 2024)</div>
+      </div>
+      <div class="award-card">
+        <span class="award-year">2020</span>
+        <div class="award-name">Sporthilfe-Gala Publikumspreis</div>
+        <div class="award-org">Österreichische Sporthilfe · Bühne mit Dominic Thiem</div>
+      </div>
+      <div class="award-card">
+        <span class="award-year">2022</span>
+        <div class="award-name">Lovemore Award</div>
+        <div class="award-org">Lovemore Foundation</div>
+      </div>
+    </div>
+
+    <div class="section-label">Medienberichterstattung</div>
+    <div class="profile-grid fade-in">
+      <div class="profile-card">
+        <span class="card-icon">📺</span>
+        <div class="card-title">ORF Sport+</div>
+        <div class="card-body">Eigene 23-Minuten-Reportage „Jenseits von Barrieren" – ein außergewöhnliches Format für einen Kleinverein. Erstausstrahlung 2025.</div>
+      </div>
+      <div class="profile-card">
+        <span class="card-icon">📡</span>
+        <div class="card-title">Sky Sport Austria</div>
+        <div class="card-body">Berichterstattung über den Rekordcup 2025 mit 300 Teilnehmer:innen. Reichweite über Sportfans weit über die Inklusionsblase hinaus.</div>
+      </div>
+      <div class="profile-card">
+        <span class="card-icon">📰</span>
+        <div class="card-title">Print & Online</div>
+        <div class="card-body">Die Presse, Bezirksblätter, MeinBezirk.at (Tag-Seite), Tips.at, BIZEPS, REWE Group Newsroom, Behindertenrat-Website.</div>
+      </div>
+      <div class="profile-card">
+        <span class="card-icon">🤝</span>
+        <div class="card-title">Institutionell</div>
+        <div class="card-body">Erwähnungen durch Österreichischen Behindertenrat, Sozialministerium, ÖFB-Kanäle und internationale Organisationen (Football for the Goals/UN).</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 4. DIGITAL ─── -->
+<section id="digital">
+  <div class="wrapper">
+    <div class="section-label">04 – Online-Präsenz</div>
+    <h2 class="section-title">DIGITALE REICHWEITE</h2>
+    <p class="section-lead">Funktional aufgestellt – aber stark ausbaufähig im Vergleich zur Projektqualität</p>
+
+    <div class="digital-grid fade-in">
+      <div class="digi-card">
+        <span class="digi-icon">📸</span>
+        <span class="digi-num">1.855</span>
+        <div class="digi-label">Instagram Follower</div>
+        <span class="digi-status warn">Ausbaufähig</span>
+      </div>
+      <div class="digi-card">
+        <span class="digi-icon">📝</span>
+        <span class="digi-num">672</span>
+        <div class="digi-label">Instagram Posts</div>
+        <span class="digi-status ok">Aktiv</span>
+      </div>
+      <div class="digi-card">
+        <span class="digi-icon">🌐</span>
+        <span class="digi-num">2</span>
+        <div class="digi-label">Websites (spielerpass.at & spielerpasscup.at)</div>
+        <span class="digi-status ok">Professionell</span>
+      </div>
+      <div class="digi-card">
+        <span class="digi-icon">💼</span>
+        <span class="digi-num">–</span>
+        <div class="digi-label">LinkedIn Unternehmensseite</div>
+        <span class="digi-status gap">Fehlt</span>
+      </div>
+    </div>
+
+    <div class="section-label">Digitale Qualitätsbewertung</div>
+    <div class="fade-in" style="background: var(--card-bg); border: 1px solid var(--border); border-radius: 1.2rem; padding: 2rem; margin-bottom: 1.5rem;">
+      <div class="progress-row">
+        <div class="progress-label">Website-Qualität</div>
+        <div class="progress-bar-wrap"><div class="progress-bar" data-w="75"></div></div>
+        <div class="progress-val">75%</div>
+      </div>
+      <div class="progress-row">
+        <div class="progress-label">Instagram-Aktivität</div>
+        <div class="progress-bar-wrap"><div class="progress-bar" data-w="60"></div></div>
+        <div class="progress-val">60%</div>
+      </div>
+      <div class="progress-row">
+        <div class="progress-label">Community-Aufbau</div>
+        <div class="progress-bar-wrap"><div class="progress-bar" data-w="30"></div></div>
+        <div class="progress-val">30%</div>
+      </div>
+      <div class="progress-row">
+        <div class="progress-label">Content-Strategie</div>
+        <div class="progress-bar-wrap"><div class="progress-bar" data-w="35"></div></div>
+        <div class="progress-val">35%</div>
+      </div>
+      <div class="progress-row">
+        <div class="progress-label">B2B-Präsenz (LinkedIn)</div>
+        <div class="progress-bar-wrap"><div class="progress-bar" data-w="5"></div></div>
+        <div class="progress-val">5%</div>
+      </div>
+      <div class="progress-row">
+        <div class="progress-label">Video / Streaming</div>
+        <div class="progress-bar-wrap"><div class="progress-bar" data-w="20"></div></div>
+        <div class="progress-val">20%</div>
+      </div>
+    </div>
+
+    <div class="intro-box fade-in">
+      <p>Tools: <strong>FundraisingBox</strong> für Spenden, <strong>CleverReach</strong> für Newsletter. Facebook und YouTube verlinkt, aber Community-Aufbau noch im frühen Stadium. Verglichen mit internationalen Best Practices (FA England mit YouTube-Live, Special Olympics mit ESPN-Partnership) ist die <strong>Videostrategie der größte blinde Fleck</strong> – gerade für emotionale Inhalte wie den Cup, die enormes virales Potenzial haben.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 5. WETTBEWERB ─── -->
+<section id="wettbewerb">
+  <div class="wrapper">
+    <div class="section-label">05 – Marktstruktur</div>
+    <h2 class="section-title">WETTBEWERBSLANDSCHAFT ÖSTERREICH</h2>
+    <p class="section-lead">Der Markt ist fragmentiert – und Spielerpass füllt die zentrale Lücke, die alle anderen lassen</p>
+
+    <div class="comp-grid fade-in">
+
+      <div class="comp-card spielerpass">
+        <div class="comp-big-icon">⭐</div>
+        <div>
+          <div class="usp-badge">✦ Einzigartiges Modell</div>
+          <div class="comp-name">SPIELERPASS – Daheim im Verein</div>
+          <div class="comp-type leader">Fokusorganisation dieser Analyse</div>
+          <div class="comp-desc">Einziger behinderungsübergreifender Verein im regulären ÖFB-Ligabetrieb. Einziges zentrales inklusives Hallenturnier Österreichs. Brücke zwischen Profifußball und Behindertensport. Bundesliga-SNTs + internationale Clubs am Cup. Komplementäres, nicht kompetitives Verhältnis zu allen anderen Akteuren.</div>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <span class="card-icon">🏅</span>
+        <div class="comp-name">Special Olympics Österreich</div>
+        <div class="comp-type indirect">Kooperationspartner</div>
+        <div class="comp-desc">UNIQA Panther Cup (20+ Teams, 3 Regionen). Nationale Sommerspiele Wien 2026 (1.800 Athlet:innen). Fokus: ausschließlich intellektuelle Beeinträchtigung. Kein regulärer Ligabetrieb. Spielerpass-Teams nehmen am Panther Cup teil.</div>
+      </div>
+
+      <div class="comp-card">
+        <span class="card-icon">🏋️</span>
+        <div class="comp-name">ÖBSV</div>
+        <div class="comp-type partner">Dachverband / Partner</div>
+        <div class="comp-desc">~100 Vereine, 5.500 Mitglieder. Schwerpunkt: körperliche & Sinnesbehinderungen. Blindenfußball-Nationalteam, E-Rolli-Fußball. Kein Breitensport-Hallenturnier. GFBS als Vermarktungspartner.</div>
+      </div>
+
+      <div class="comp-card">
+        <span class="card-icon">🔴</span>
+        <div class="comp-name">Bundesliga-SNTs</div>
+        <div class="comp-type indirect">Komplementär & Teilnehmer</div>
+        <div class="comp-desc">SK Rapid (Pionier seit 2014, ~30 Spieler), Austria Wien (Special Violets), SKN St. Pölten, GAK, BWL, Altach, Admira, Sturm Graz. Wiener Inklusionsderby (Rapid vs. Austria, 3. Auflage 2025). Schicken Teams zum Spielerpass Cup – kein eigenes Turnierformat.</div>
+      </div>
+
+      <div class="comp-card">
+        <span class="card-icon">📋</span>
+        <div class="comp-name">ÖFB</div>
+        <div class="comp-type indirect">Regulierungsbehörde / Lücke</div>
+        <div class="comp-desc">Kein systematisches Inklusionsprogramm (im Gegensatz zum deutschen DFB). fairplay-Initiative (VIDC) adressiert Diversität, nicht Behinderung. Keine Inklusionsbeauftragten in Landesverbänden. Spielerpass DSG-Verein ist beim ÖFB gemeldet.</div>
+      </div>
+
+      <div class="comp-card">
+        <span class="card-icon">🤲</span>
+        <div class="comp-name">Behindertenrat & ÖZIV</div>
+        <div class="comp-type partner">Netzwerkpartner</div>
+        <div class="comp-desc">Österreichischer Behindertenrat: Dachorganisation, berichtet über Spielerpass Cup, politische Vernetzung. ÖZIV Access: Kooperationspartner im IFS-Gewaltschutzprojekt. Wichtige Multiplikatoren für Fördermittel und politische Sichtbarkeit.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 6. DACH ─── -->
+<section id="dach">
+  <div class="wrapper">
+    <div class="section-label">06 – DACH-Markt</div>
+    <h2 class="section-title">DEUTSCHLAND · ÖSTERREICH · SCHWEIZ</h2>
+    <p class="section-lead">Ein hochentwickeltes Ökosystem im Norden, ein entstehender Markt im Westen – und eine offene Lücke in beiden</p>
+
+    <div class="dach-tabs">
+      <button class="dach-tab active" onclick="showDach('de')">🇩🇪 Deutschland</button>
+      <button class="dach-tab" onclick="showDach('ch')">🇨🇭 Schweiz</button>
+      <button class="dach-tab" onclick="showDach('exp')">🚀 Expansionschancen</button>
+    </div>
+
+    <div id="dach-de" class="dach-panel active">
+      <div class="dach-panel-grid">
+        <div class="profile-card">
+          <span class="card-icon">🏛️</span>
+          <div class="card-title">DFB-Stiftung Sepp Herberger</div>
+          <div class="card-body">Inklusionsbeauftragte in allen 21 Landesverbänden (100.000 €/Jahr). Leuchtturmprojekte: Blindenfußball-Bundesliga (seit 2008, mit BVB, Schalke, St. Pauli), Deutsche Meisterschaft der Werkstätten (seit 2000, 16+5 Teams), FußballFreunde-Cups.</div>
+        </div>
+        <div class="profile-card">
+          <span class="card-icon">🎯</span>
+          <div class="card-title">KickIn! – Beratungsstelle Inklusion</div>
+          <div class="card-body">Finanziert von DFL und Aktion Mensch. Berät 1.–3.-Liga-Clubs systematisch. Behinderten-Fußball-Liga Niedersachsen: regulärer Punktspielbetrieb seit 2008 mit 20 Mannschaften.</div>
+        </div>
+        <div class="profile-card">
+          <span class="card-icon">📊</span>
+          <div class="card-title">Marktdaten Deutschland</div>
+          <div class="card-body">7,9 Millionen schwerbehinderte Menschen (9,3 % der Bevölkerung). Sportpartizipation: nur ~2,4 % (vs. ~30 % Gesamtbevölkerung). 55 % treiben nie Sport. Fördertöpfe: Aktion Mensch (bis 10.000 €), DOSB (bis 5 Mio. €).</div>
+        </div>
+        <div class="profile-card">
+          <span class="card-icon">🔓</span>
+          <div class="card-title">Die offene Marktlücke</div>
+          <div class="card-body">Trotz entwickeltem Ökosystem: kein zentrales, behinderungsübergreifendes Hallenturnier-Format in Deutschland. DM Werkstätten ist auf Werkstätten beschränkt, FußballFreunde-Cups dezentral. TSV 1860 und Hannover 96 kamen bereits zum Spielerpass Cup.</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="dach-ch" class="dach-panel">
+      <div class="dach-panel-grid">
+        <div class="profile-card">
+          <span class="card-icon">⛰️</span>
+          <div class="card-title">PluSport Behindertensport Schweiz</div>
+          <div class="card-body">85 Sportclubs, gegründet 1960. 2024: erst 9 Fußballturniere mit ~500 Teilnehmenden, 9 Vereine beraten. Partnerschaft mit SFV vertieft 2024, dedizierte Inklusionsstelle (Rebecca Wyer) seit Feb. 2024 beim SFV.</div>
+        </div>
+        <div class="profile-card">
+          <span class="card-icon">🥇</span>
+          <div class="card-title">Special Olympics Schweiz</div>
+          <div class="card-body">22 Teams, 230 Spieler:innen (Turnier Mai 2024). Ausrichtung der <strong>World Winter Games 2029</strong> in der Schweiz – massiver Aufmerksamkeitsimpuls für gesamten Inklusionssport in CH.</div>
+        </div>
+        <div class="profile-card">
+          <span class="card-icon">🏫</span>
+          <div class="card-title">Vereinsbasis Schweiz</div>
+          <div class="card-body">FC Solothurn plus, FCK BodenseeKickers, Ponte Kickers Windisch, FC Basel DreamTeam. Pioniere ohne strukturellen Rahmen. FC Basel hielt 2024 ersten Trainerkongress Inklusionsfußball im DACH-Raum.</div>
+        </div>
+        <div class="profile-card">
+          <span class="card-icon">🔓</span>
+          <div class="card-title">Die offene Marktlücke</div>
+          <div class="card-body">Kein zentrales Turnierformat für inklusiven Fußball in der Schweiz. Vereinsbasis noch im Aufbau. Spielerpass-Modell auf Schweiz direkt übertragbar. SO World Games 2029 als Momentum-Ereignis nutzbar.</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="dach-exp" class="dach-panel">
+      <div class="dach-panel-grid">
+        <div class="profile-card">
+          <span class="card-icon">🇩🇪</span>
+          <div class="card-title">Deutschland – Anknüpfungspunkte</div>
+          <div class="card-body">Bestehende Kontakte: TSV 1860 München und Hannover 96 als Brückenpartner. DFB-Stiftung Sepp Herberger als institutioneller Partner. Aktion Mensch als Fördergeber (bis 10.000 € ohne Eigenmittel). München als geographischer Einstiegsmarkt ideal.</div>
+        </div>
+        <div class="profile-card">
+          <span class="card-icon">🇨🇭</span>
+          <div class="card-title">Schweiz – Anknüpfungspunkte</div>
+          <div class="card-body">PluSport (Stefan Huber, Fußball-Projektleiter) und SFV (Rebecca Wyer) als natürliche Kontaktpersonen. FC Basel als Pilot-Club-Partner. SO World Games 2029 als Sichtbarkeitsmoment. Vereinsgründung in CH unkompliziert.</div>
+        </div>
+        <div class="profile-card">
+          <span class="card-icon">⚠️</span>
+          <div class="card-title">Kernhürde Expansion</div>
+          <div class="card-body">Derzeit ehrenamtlich geführte Organisation. Vor jeder Expansion ist eine hauptamtliche Kernstruktur in Österreich notwendig. Skalierung der personellen und finanziellen Kapazität als Voraussetzung, nicht als Konsequenz.</div>
+        </div>
+        <div class="profile-card">
+          <span class="card-icon">🎯</span>
+          <div class="card-title">Empfohlene Roadmap</div>
+          <div class="card-body">2026: Schweizer Teams einladen (PluSport-Clubs). 2027: Kooperationsvereinbarung DFB-Stiftung. 2028: Erster DACH-Cup (Wien–München–Zürich rotierend). 2029: Special Olympics CH-Momentum nutzen.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 7. BEST PRACTICE ─── -->
+<section id="bestpractice">
+  <div class="wrapper">
+    <div class="section-label">07 – International</div>
+    <h2 class="section-title">INTERNATIONALE BEST PRACTICES</h2>
+    <p class="section-lead">Was die Besten der Welt anders (und besser) machen – und was Spielerpass direkt übernehmen kann</p>
+
+    <div class="bp-grid fade-in">
+      <div class="bp-card">
+        <div class="bp-header" style="background: linear-gradient(135deg, #1a3066 0%, #0d1f44 100%);">
+          <div>
+            <div class="bp-flag">🌍</div>
+            <div class="bp-org">Special Olympics International</div>
+          </div>
+          <div style="text-align: right; font-size: 0.75rem; color: rgba(255,255,255,0.5);">USA-Modell</div>
+        </div>
+        <div class="bp-body">
+          <div class="bp-metric"><span>Athlet:innen weltweit</span><span class="bp-metric-val">5,3 Mio</span></div>
+          <div class="bp-metric"><span>Länder</span><span class="bp-metric-val">190+</span></div>
+          <div class="bp-metric"><span>Jahreseinnahmen</span><span class="bp-metric-val">$195 Mio</span></div>
+          <div class="bp-metric"><span>Corporate Sponsors</span><span class="bp-metric-val">$56,6 Mio</span></div>
+          <div style="margin-top: 1rem; font-size: 0.83rem; color: var(--muted);">
+            <strong style="color: var(--dark);">Lernfelder:</strong> Franchise-Akkreditierungsmodell · Toyota/ESPN als Langzeit-Partner · Unified Schools (19,5 Mio. Schüler:innen) · Unified Football World Cup Paris 2026
+          </div>
+        </div>
+      </div>
+
+      <div class="bp-card">
+        <div class="bp-header" style="background: linear-gradient(135deg, #013220 0%, #00611f 100%);">
+          <div>
+            <div class="bp-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</div>
+            <div class="bp-org">FA England – „Football Without Limits"</div>
+          </div>
+          <div style="text-align: right; font-size: 0.75rem; color: rgba(255,255,255,0.5);">Strategie 2024</div>
+        </div>
+        <div class="bp-body">
+          <div class="bp-metric"><span>Ziel registrierte Spieler bis 2028</span><span class="bp-metric-val">28.300</span></div>
+          <div class="bp-metric"><span>Pan-Disability-Leagues</span><span class="bp-metric-val">40+</span></div>
+          <div class="bp-metric"><span>Comets-Einstieg (5–11 J.)</span><span class="bp-metric-val">150+ Provider</span></div>
+          <div style="margin-top: 1rem; font-size: 0.83rem; color: var(--muted);">
+            <strong style="color: var(--dark);">Lernfelder:</strong> County-FA-Integration · EE Disability FA Cup · Spezialisierte Coach Education · YouTube-Live-Übertragung
+          </div>
+        </div>
+      </div>
+
+      <div class="bp-card">
+        <div class="bp-header" style="background: linear-gradient(135deg, #e85b0d 0%, #a83a00 100%);">
+          <div>
+            <div class="bp-flag">🇳🇱</div>
+            <div class="bp-org">KNVB G-Voetbal / Uniek Sporten</div>
+          </div>
+          <div style="text-align: right; font-size: 0.75rem; color: rgba(255,255,255,0.5);">Niederlande-Modell</div>
+        </div>
+        <div class="bp-body">
+          <div class="bp-metric"><span>G-Voetbal-Mitglieder</span><span class="bp-metric-val">~4.500</span></div>
+          <div class="bp-metric"><span>Uniek Sporten Clubs</span><span class="bp-metric-val">4.350+</span></div>
+          <div style="margin-top: 1rem; font-size: 0.83rem; color: var(--muted);">
+            <strong style="color: var(--dark);">Lernfelder:</strong> „Sportzoeker" digitale Matching-Plattform · Online-Workouts von Trainer:innen MIT Behinderung · Crowdfunding für Sportclubs · DIREKT auf DACH übertragbar
+          </div>
+        </div>
+      </div>
+
+      <div class="bp-card">
+        <div class="bp-header" style="background: linear-gradient(135deg, #2d6ea6 0%, #1a4266 100%);">
+          <div>
+            <div class="bp-flag">🇸🇪🇩🇰🇫🇮</div>
+            <div class="bp-org">Skandinavien – Community-First</div>
+          </div>
+          <div style="text-align: right; font-size: 0.75rem; color: rgba(255,255,255,0.5);">Nordisches Modell</div>
+        </div>
+        <div class="bp-body">
+          <div style="margin-bottom: 0.8rem; font-size: 0.83rem; color: var(--muted);">Höchste Inklusionsquoten im Sport weltweit durch systematische Schnittstelle von Sozialsystem und Sportverbänden.</div>
+          <div style="font-size: 0.83rem; color: var(--muted);">
+            <strong style="color: var(--dark);">Lernfelder:</strong> Staatliche Grundfinanzierung für Inklusionsbeauftragte · Schulprogramme als Pflichtbestandteil · Impact Measurement als Standardprozess · Ehrenamtliche Trainer mit zertifizierter Inklusions-Ausbildung
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="intro-box fade-in">
+      <p>Die <strong>fünf universellen Skalierungshebel</strong> aus dem internationalen Vergleich: (1) <strong>Schulen als Multiplikatoren</strong> (SO Unified Schools, FA Comets) · (2) <strong>Digitale Matching-Plattform</strong> (Uniek Sporten Sportzoeker) · (3) <strong>Langfristige Corporate Partnerships</strong> mit klarer Aktivierung · (4) <strong>Spezialisierte Coach Education</strong> als Qualitätssicherung · (5) <strong>Medienpartnerschaften für professionelles Streaming</strong> als Reichweitenhebel</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 8. FÖRDERUNG ─── -->
+<section id="foerderung">
+  <div class="wrapper">
+    <div class="section-label">08 – Finanzierung</div>
+    <h2 class="section-title">FÖRDER- & SPONSORING-LANDSCHAFT</h2>
+    <p class="section-lead">Diverse Töpfe – strategisch zum Teil noch ungenutzt</p>
+
+    <div class="funding-grid fade-in">
+      <div class="funding-card">
+        <div class="funding-amount">150.000€</div>
+        <div class="funding-source">BMWKMS – Gleichstellung. Integration. Inklusion.</div>
+        <div class="funding-desc">Bundesministerium für Sport. Call mit 1 Mio. € Gesamtvolumen. Bis 150.000 € / Projekt (50.000 €/Jahr, 36 Monate). <strong>Sofortige Bewerbung empfohlen.</strong></div>
+        <span class="funding-tag at">🇦🇹 Österreich</span>
+      </div>
+      <div class="funding-card">
+        <div class="funding-amount">450.000€</div>
+        <div class="funding-source">Erasmus+ Sport – Not-for-Profit Events</div>
+        <div class="funding-desc">Allein 2026: 9,5 Mio. € Gesamtvolumen für europäische Sportevents. Spielerpass hat bereits Erasmus+-Erfahrung (IFS-Projekt). Deadline: März 2026.</div>
+        <span class="funding-tag eu">🇪🇺 EU</span>
+      </div>
+      <div class="funding-card">
+        <div class="funding-amount">111 Mio€</div>
+        <div class="funding-source">ESF+ Österreich – Aktive Inklusion</div>
+        <div class="funding-desc">Europäischer Sozialfonds, 2021–2027. Expliziter Fokus: aktive Inklusion von Menschen mit Behinderungen. Für 3–5-Jahres-Programme ideal.</div>
+        <span class="funding-tag eu">🇪🇺 EU</span>
+      </div>
+      <div class="funding-card">
+        <div class="funding-amount">1,55 Mrd€</div>
+        <div class="funding-source">CERV – Citizens, Equality, Rights & Values</div>
+        <div class="funding-desc">EU-Programm 2021–2027. Expliziter Gleichstellungsfokus. Kontaktstelle: Bundeskanzleramt (Mag. Ernst Holzinger).</div>
+        <span class="funding-tag eu">🇪🇺 EU</span>
+      </div>
+      <div class="funding-card">
+        <div class="funding-amount">10.000€</div>
+        <div class="funding-source">Aktion Mensch (Deutschland)</div>
+        <div class="funding-desc">Bis 10.000 € ohne Eigenmittel. Für DACH-Expansionspilot in Deutschland ideal. DOSB-Kooperationen ergänzend bis 5 Mio. €.</div>
+        <span class="funding-tag eu">🇩🇪 Deutschland</span>
+      </div>
+      <div class="funding-card">
+        <div class="funding-amount">CSR</div>
+        <div class="funding-source">Corporate Sponsoring 2025+</div>
+        <div class="funding-desc">Barrierefreiheitsgesetz (ab 28.06.2025) erhöht ESG-Motivation. Ziel-Branchen: Telko, Versicherung, Tech, Pharma, Sportausrüster. myAbility als Vermittler zu Großkonzernen.</div>
+        <span class="funding-tag corp">💼 Corporate</span>
+      </div>
+    </div>
+
+    <div class="profile-grid fade-in">
+      <div class="profile-card">
+        <span class="card-icon">🏦</span>
+        <div class="card-title">Österreichische Sportförderung</div>
+        <div class="card-body">Bundes-Sport GmbH verwaltet ~156 Mio. € jährlich. Für Inklusion spezifisch nur 0,7 Mio. €. Primär an Dachverbände (ÖBSV, SOÖ, ÖPC). MA 51 Wien und Landesfördermittel aller 9 Bundesländer ergänzen das Angebot.</div>
+      </div>
+      <div class="profile-card">
+        <span class="card-icon">⚖️</span>
+        <div class="card-title">Barrierefreiheitsgesetz als Hebel</div>
+        <div class="card-body">Ab 28.06.2025 in Kraft. Pflicht zum Barrierefreiheitsbeauftragten für Unternehmen >400 MA ab 01.01.2025. Schafft starken regulatorischen Druck und CSR-Motivation für Corporate Sponsoring von Inklusionsprojekten.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 9. MARKT ─── -->
+<section id="markt">
+  <div class="wrapper">
+    <div class="section-label">09 – Marktpotenzial</div>
+    <h2 class="section-title">MARKT & ZIELGRUPPE</h2>
+    <p class="section-lead">Ein massiver, fast vollständig unerschlossener Markt mit politischem Rückenwind</p>
+
+    <div class="market-stat-row fade-in">
+      <div class="mstat">
+        <span class="mstat-num">1,9<span>Mio</span></span>
+        <div class="mstat-label">Menschen mit Behinderung in Österreich (15–89 J., GALI)</div>
+      </div>
+      <div class="mstat">
+        <span class="mstat-num">&gt;<span>90</span>%</span>
+        <div class="mstat-label">sportlich NICHT organisiert – unerschlossenes Potenzial</div>
+      </div>
+      <div class="mstat">
+        <span class="mstat-num">28<span>Tsd</span></span>
+        <div class="mstat-label">Menschen in Werkstätten/Tagesstrukturen – direkt erreichbar</div>
+      </div>
+      <div class="mstat">
+        <span class="mstat-num">7,9<span>Mio</span></span>
+        <div class="mstat-label">Schwerbehinderte in Deutschland (DACH-Potenzial)</div>
+      </div>
+    </div>
+
+    <div class="section-label">Gesellschaftlicher & Politischer Rückenwind</div>
+    <div class="profile-grid fade-in">
+      <div class="profile-card">
+        <span class="card-icon">📋</span>
+        <div class="card-title">NAP II (2022–2030)</div>
+        <div class="card-body">Nationaler Aktionsplan Behinderung II mit 375 Maßnahmen. Erstmals mit Länderbeteiligung. Expliziter Fokus auf Sport und gesellschaftliche Teilhabe. Spielerpass passt perfekt in den politischen Rahmen.</div>
+      </div>
+      <div class="profile-card">
+        <span class="card-icon">🌐</span>
+        <div class="card-title">UN-BRK & EU-Strategie</div>
+        <div class="card-body">UN-Behindertenrechtskonvention-Staatenprüfung 2023 kritisierte AT-Defizite – politischer Handlungsdruck steigt. EU-Behindertenrechtsstrategie 2021–2030 mit European Disability Card und AccessibleEU.</div>
+      </div>
+      <div class="profile-card">
+        <span class="card-icon">⚖️</span>
+        <div class="card-title">Barrierefreiheitsgesetz</div>
+        <div class="card-body">In Kraft ab 28.06.2025. „Lohn statt Taschengeld" (Ministerratsbeschluss März 2024). Paradigmenwechsel in der österreichischen Behindertenpolitik, der Spielerpass als Vorzeigemodell positioniert.</div>
+      </div>
+      <div class="profile-card">
+        <span class="card-icon">🎯</span>
+        <div class="card-title">Special Olympics Wien 2026</div>
+        <div class="card-body">Nationale Sommerspiele mit 1.800 Athlet:innen am neuen ÖFB-Campus Wien. Massive Mediensichtbarkeit für inklusiven Sport in Österreich. Strategisches Moment für Spielerpass-Positionierung.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 10. SWOT ─── -->
+<section id="swot">
+  <div class="wrapper">
+    <div class="section-label">10 – Strategische Bewertung</div>
+    <h2 class="section-title">SWOT-ANALYSE</h2>
+    <p class="section-lead">Ehrliche Einordnung der strategischen Ausgangslage von Spielerpass</p>
+
+    <div class="swot-grid fade-in">
+      <div class="swot-quad">
+        <div class="swot-header">
+          <div class="swot-letter">S</div>
+          <div>
+            <div class="swot-word" style="color: var(--green);">Stärken</div>
+            <div style="font-size: 0.75rem; color: var(--muted);">Interne positive Faktoren</div>
+          </div>
+        </div>
+        <ul class="swot-list">
+          <li>Einzigartiges, behinderungsübergreifendes Vereinsmodell im regulären ÖFB-Ligabetrieb</li>
+          <li>Authentische Gründungsgeschichte (Karner/Haindl) – medientauglich</li>
+          <li>Außergewöhnliche Auszeichnungsdichte für Kleinverein</li>
+          <li>Spielerpass Cup als österreichweit etablierte Marke</li>
+          <li>Internationale Strahlkraft (1860 München, Hannover 96)</li>
+          <li>Innovationsfähigkeit (Stiller Stunde Court, IFS, DAHEIMKICKER)</li>
+          <li>Breites Netzwerk zu Bundesliga-Clubs, SOÖ, ÖZIV</li>
+          <li>EU-Erasmus+-Erfahrung als Vorteil bei weiteren Anträgen</li>
+        </ul>
+      </div>
+      <div class="swot-quad">
+        <div class="swot-header">
+          <div class="swot-letter">W</div>
+          <div>
+            <div class="swot-word" style="color: var(--orange);">Schwächen</div>
+            <div style="font-size: 0.75rem; color: var(--muted);">Interne negative Faktoren</div>
+          </div>
+        </div>
+        <ul class="swot-list">
+          <li>Ehrenamtliche Struktur begrenzt Skalierungsfähigkeit</li>
+          <li>Kein hauptamtliches Management</li>
+          <li>Finanzielle Basis trotz BILLA schmal & projektabhängig</li>
+          <li>Digitale Präsenz (1.855 IG) weit unter Projektqualität</li>
+          <li>Kein LinkedIn, kein professionelles Streaming</li>
+          <li>Geografische Konzentration Wien/NÖ</li>
+          <li>Fehlende systematische Wirkungsmessung (Impact Report)</li>
+          <li>Kein CRM für Stakeholder-Management</li>
+          <li>Klumpenrisiko: starke Personenabhängigkeit von N. Karner</li>
+          <li>Kein klar formulierter USP in der Außenkommunikation</li>
+        </ul>
+      </div>
+      <div class="swot-quad">
+        <div class="swot-header">
+          <div class="swot-letter">O</div>
+          <div>
+            <div class="swot-word" style="color: var(--blue);">Chancen</div>
+            <div style="font-size: 0.75rem; color: var(--muted);">Externe positive Faktoren</div>
+          </div>
+        </div>
+        <ul class="swot-list">
+          <li>NAP II, Barrierefreiheitsgesetz, UN-BRK als politischer Rückenwind</li>
+          <li>EU-Fördertöpfe strategisch untergenutzt (Erasmus+, ESF+, CERV)</li>
+          <li>DACH-Expansion durch bestehende Kontakte realistisch</li>
+          <li>Corporate Sponsoring-Wachstum durch ESG-Druck</li>
+          <li>Digitalisierung: Matching-Plattform nach Uniek-Sporten-Modell</li>
+          <li>Special Olympics Wien 2026 als Sichtbarkeitsmoment</li>
+          <li>Zero Project 2026 Shortlist für internationale Vernetzung</li>
+          <li>Bundesweites Schulnetzwerk skalierbar</li>
+          <li>SO World Winter Games 2029 Schweiz – CH-Expansion</li>
+        </ul>
+      </div>
+      <div class="swot-quad">
+        <div class="swot-header">
+          <div class="swot-letter">T</div>
+          <div>
+            <div class="swot-word" style="color: var(--red);">Risiken</div>
+            <div style="font-size: 0.75rem; color: var(--muted);">Externe negative Faktoren</div>
+          </div>
+        </div>
+        <ul class="swot-list">
+          <li>Ressourcenengpass bei zu schnellem Wachstum</li>
+          <li>Fördermittel-Volatilität bei Regierungswechseln</li>
+          <li>Bundesliga-SNTs bauen eigene Turnierformate aus</li>
+          <li>Sponsoren-Konkurrenz mit SOÖ (UNIQA) und ÖBSV (AUVA)</li>
+          <li>Burnout-Risiko bei ehrenamtlichen Schlüsselpersonen</li>
+          <li>Rechtliche/steuerliche Hürden DACH-Expansion</li>
+          <li>ÖFB könnte eigenes systematisches Inklusionsprogramm starten</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 11. AKTIONSPLAN ─── -->
+<section id="aktionsplan">
+  <div class="wrapper">
+    <div class="section-label">11 – Strategische Roadmap</div>
+    <h2 class="section-title">KONKRETER AKTIONSPLAN</h2>
+    <p class="section-lead">Drei Phasen, die Spielerpass von der Ehrenamts-Initiative zur DACH-Führungsmarke führen</p>
+
+    <div class="timeline fade-in">
+
+      <!-- PHASE 1 -->
+      <div class="timeline-phase" data-num="1">
+        <span class="phase-badge short">0–6 Monate</span>
+        <div class="phase-title">Fundament professionalisieren</div>
+        <ul class="action-list">
+          <li class="action-item">
+            <div class="action-num">1</div>
+            <div class="action-text">
+              <strong>Erste hauptamtliche Stelle schaffen</strong>
+              <span>Finanzierung über BMWKMS-Call „Gleichstellung. Integration. Inklusion." (bis 50.000 €/Jahr, 36 Monate). Aufgaben: Projektmanagement, Fundraising, digitale Kommunikation.</span>
+            </div>
+          </li>
+          <li class="action-item">
+            <div class="action-num">2</div>
+            <div class="action-text">
+              <strong>Digitale Offensive starten</strong>
+              <span>Instagram-Strategie professionalisieren (Ziel: 5.000 Follower in 12 Monaten). LinkedIn-Unternehmensseite aufbauen. TikTok für emotionalen Kurzvideoinhalt. Newsletter-Basis systematisch erweitern.</span>
+            </div>
+          </li>
+          <li class="action-item">
+            <div class="action-num">3</div>
+            <div class="action-text">
+              <strong>Social Impact Report implementieren</strong>
+              <span>KPIs definieren und messen: Teilnehmer:innen, Trainingseinheiten, Einrichtungen, Medienreichweite. Basis für alle Förderanträge und Sponsorengespräche.</span>
+            </div>
+          </li>
+          <li class="action-item">
+            <div class="action-num">4</div>
+            <div class="action-text">
+              <strong>Förderstrategie sofort aktivieren</strong>
+              <span>BMWKMS-Call 2026 bewerben. CERV evaluieren (Kontakt Mag. Holzinger, BKA). Erasmus+-Folgeprojekt planen (Deadline März 2026, bis 450.000 €).</span>
+            </div>
+          </li>
+          <li class="action-item">
+            <div class="action-num">5</div>
+            <div class="action-text">
+              <strong>Medienpartnerschaften vertiefen</strong>
+              <span>Nach ORF Sport+-Reportage systematisch pflegen. Ziel: 2 TV-Beiträge/Jahr, 5+ Leitmedien-Berichte. Streaming-Konzept für Cup 2026 entwickeln (YouTube/Twitch).</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- PHASE 2 -->
+      <div class="timeline-phase" data-num="2">
+        <span class="phase-badge mid">6–18 Monate</span>
+        <div class="phase-title">Skalieren und positionieren</div>
+        <ul class="action-list">
+          <li class="action-item">
+            <div class="action-num">1</div>
+            <div class="action-text">
+              <strong>USP schärfen – Marke als DACH-Leitmarke aufbauen</strong>
+              <span>Spielerpass als „die DACH-Marke für inklusiven Hallenfußball" positionieren. Professionelles Branding-Update. Cup als eigenständige Event-Brand stärken.</span>
+            </div>
+          </li>
+          <li class="action-item">
+            <div class="action-num">2</div>
+            <div class="action-text">
+              <strong>Bundesweite Expansion in Österreich</strong>
+              <span>Spielerpass-Hubs in Steiermark, OÖ, Salzburg als Netzwerk-Modell mit bestehenden Einrichtungen (Lebenshilfe, Caritas, Jugend am Werk). Kremser Inklusionscup als Template bundesweit replizieren.</span>
+            </div>
+          </li>
+          <li class="action-item">
+            <div class="action-num">3</div>
+            <div class="action-text">
+              <strong>DACH-Brücken aktiv bauen</strong>
+              <span>Schweizer PluSport-Clubs für Cup 2026 einladen. Kooperationsvereinbarung DFB-Stiftung Sepp Herberger. Aktion Mensch-Antrag für Pilotprojekt München.</span>
+            </div>
+          </li>
+          <li class="action-item">
+            <div class="action-num">4</div>
+            <div class="action-text">
+              <strong>Corporate Sponsoring-Portfolio aufbauen</strong>
+              <span>3–5 Sponsoren parallel zu BILLA. Branchen: Telekommunikation, Versicherung, Technologie, Sportausrüster. myAbility als Vermittler nutzen. Professionelles Sponsoring-Deck mit Impact-Daten erstellen.</span>
+            </div>
+          </li>
+          <li class="action-item">
+            <div class="action-num">5</div>
+            <div class="action-text">
+              <strong>Cup 2026: 35 Teams, 3 Länder, Live-Streaming</strong>
+              <span>Ziel: 35 Teams aus Österreich, Deutschland, Schweiz. Livestream auf YouTube oder Twitch. Medienpartnerschaft für professionelle TV-Produktion. Outdoor-Sommercup evaluieren.</span>
+            </div>
+          </li>
+          <li class="action-item">
+            <div class="action-num">6</div>
+            <div class="action-text">
+              <strong>Digitale Plattform konzipieren (Matchingservice)</strong>
+              <span>Machbarkeitsstudie für Uniek-Sporten-ähnliche Matching-Plattform. Zunächst als Verzeichnis auf spielerpass.at, später eigenständige App. Spieler:innen finden inklusiven Fußball nach Behinderungsart, Niveau, Ort.</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- PHASE 3 -->
+      <div class="timeline-phase" data-num="3">
+        <span class="phase-badge long">18+ Monate</span>
+        <div class="phase-title">DACH-Führungsposition etablieren</div>
+        <ul class="action-list">
+          <li class="action-item">
+            <div class="action-num">1</div>
+            <div class="action-text">
+              <strong>ÖFB-Partnership institutionalisieren</strong>
+              <span>Memorandum of Understanding mit ÖFB (nach DFB-Vorbild). Ziel: Spielerpass als offizielle Implementierungspartnerorganisation. Inklusionsbeauftragte in allen 9 Landesverbänden forcieren.</span>
+            </div>
+          </li>
+          <li class="action-item">
+            <div class="action-num">2</div>
+            <div class="action-text">
+              <strong>DACH Cup als jährliches Flaggschiff-Event</strong>
+              <span>Jährlicher Standortwechsel: Wien → München → Zürich. Ziel: 50+ Teams, 500+ Spieler:innen, professionelle TV-Produktion. IFS-Gewaltschutzstandard für alle DACH-Vereine.</span>
+            </div>
+          </li>
+          <li class="action-item">
+            <div class="action-num">3</div>
+            <div class="action-text">
+              <strong>Spielerpass-Akademie gründen</strong>
+              <span>Zertifizierte Coach-Education für inklusiven Fußball (nach FA/KNVB-Vorbild). In Kooperation mit ÖFB oder BSO als anerkannte Fortbildung. Nachhaltige Qualitätssicherung und Einnahmequelle.</span>
+            </div>
+          </li>
+          <li class="action-item">
+            <div class="action-num">4</div>
+            <div class="action-text">
+              <strong>Nachhaltige Finanzierungsstruktur (4 Säulen)</strong>
+              <span>Öffentliche Förderung 30 % · Corporate Sponsoring 30 % · Spenden/Fundraising 25 % · Eigene Erlöse 15 % (Akademie, Merchandise, Lizenzgebühren). Stiftungsgründung für Unabhängigkeit evaluieren.</span>
+            </div>
+          </li>
+          <li class="action-item">
+            <div class="action-num">5</div>
+            <div class="action-text">
+              <strong>Wissenschaftliche Impact-Messung etablieren</strong>
+              <span>Kooperation mit Uni Wien oder Uni Salzburg (Sportwissenschaft) für externe Evaluation. Jährlicher Social Impact Report mit Audit. Zero Project 2026 als Sprungbrett für internationale Sichtbarkeit.</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── 12. FAZIT ─── -->
+<section id="fazit" style="border-bottom: none; background: var(--cream);">
+  <div class="wrapper">
+    <div class="section-label">12 – Conclusion</div>
+    <h2 class="section-title">FAZIT</h2>
+    <p class="section-lead">Spielerpass steht vor dem entscheidenden Skalierungsmoment</p>
+
+    <div class="fazit-box fade-in">
+      <h2>DAS FENSTER IST JETZT OFFEN</h2>
+      <p>
+        Spielerpass hat in neun Jahren bewiesen, dass ein kleiner, ehrenamtlich geführter Verein mit authentischer Mission außerordentliche Wirkung entfalten kann – von <span class="fazit-highlight">6 Teams und null Fördereuro</span> zum größten inklusiven Hallenfußballturnier Österreichs.
+      </p>
+      <p>
+        Die strategische Analyse zeigt: Über <span class="fazit-highlight">90 % der Menschen mit Behinderung</span> in Österreich sind sportlich nicht organisiert. Im DACH-Raum existiert kein vergleichbares zentrales Hallenturnier-Format. Fördertöpfe – insbesondere auf EU-Ebene – sind vorhanden und strategisch untergenutzt.
+      </p>
+      <p>
+        Der entscheidende nächste Schritt ist die <span class="fazit-highlight">Professionalisierung der Kernstruktur</span>: erste hauptamtliche Stelle, systematische Förderstrategie, digitale Offensive. Ohne diese Basis bleibt Spielerpass ein bemerkenswertes Ehrenamtsprojekt. <strong style="color: var(--accent);">Mit ihr wird der Verein zur führenden Marke für inklusiven Hallenfußball im deutschsprachigen Raum</strong> – eine Position, die derzeit niemand besetzt.
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Spielerpass – Strategische Markt- & Wettbewerbsanalyse · Intern · März 2026 · <a href="https://spielerpass.at" target="_blank">spielerpass.at</a></p>
+</footer>
+
+<script>
+// ─── NAV ACTIVE ───
+const navLinks = document.querySelectorAll('.nav-link');
+const sections = document.querySelectorAll('section[id]');
+
+function setActiveNav() {
+  let current = '';
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop - 120;
+    if (window.scrollY >= sectionTop) {
+      current = section.getAttribute('id');
+    }
+  });
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) {
+      link.classList.add('active');
+    }
+  });
+}
+
+window.addEventListener('scroll', setActiveNav);
+
+// ─── FADE IN ───
+const fadeEls = document.querySelectorAll('.fade-in');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+fadeEls.forEach(el => observer.observe(el));
+
+// ─── PROGRESS BARS ───
+const progressObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const bars = entry.target.querySelectorAll('.progress-bar');
+      bars.forEach(bar => {
+        const w = bar.getAttribute('data-w');
+        setTimeout(() => { bar.style.width = w + '%'; }, 200);
+      });
+      progressObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.3 });
+
+document.querySelectorAll('.progress-bar-wrap').forEach(wrap => {
+  const bar = wrap.querySelector('.progress-bar');
+  if (bar) progressObserver.observe(wrap.closest('div'));
+});
+
+// Also trigger on parent containers
+document.querySelectorAll('.fade-in').forEach(el => {
+  if (el.querySelector('.progress-bar')) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.querySelectorAll('.progress-bar').forEach(bar => {
+            const w = bar.getAttribute('data-w');
+            setTimeout(() => { bar.style.width = w + '%'; }, 300);
+          });
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    io.observe(el);
+  }
+});
+
+// ─── DACH TABS ───
+function showDach(id) {
+  document.querySelectorAll('.dach-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.dach-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('dach-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
